@@ -25,7 +25,6 @@
             align-items: center;
             border: 1px solid #D1D5DB;
             border-radius: 0.375rem;
-            padding-left: 0.5rem;
             box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
             background-color: white;
         }
@@ -33,18 +32,23 @@
             border-color: #4f46e5;
             box-shadow: 0 0 0 1px #4f46e5;
         }
-        .phone-input-flag-select {
+        .phone-code-select {
             background: transparent;
             border: none;
-            font-size: 1.25rem;
-            margin-right: 0.5rem;
+            border-right: 1px solid #D1D5DB;
+            padding-left: 0.75rem;
+            padding-right: 0.5rem;
+            font-size: 0.875rem;
+            line-height: 1.25rem;
+            color: #374151;
             cursor: pointer;
+            outline: none;
         }
         .phone-input-field {
             border: none;
             outline: none;
             flex-grow: 1;
-            padding: 0.5rem 0.75rem;
+            padding: 0.6rem 0.75rem;
             background: transparent;
         }
     </style>
@@ -56,27 +60,27 @@
 
         <!-- Stepper -->
         <div class="flex items-center justify-center mb-10">
-            <div class="flex flex-col items-center w-20">
+            <div class="flex flex-col items-center w-24">
                 <div class="w-10 h-10 rounded-full flex items-center justify-center text-white bg-indigo-600">1</div>
                 <p class="mt-2 text-xs text-center font-semibold text-gray-800">Basic Info</p>
             </div>
             <div class="stepper-line border-gray-300"></div>
-            <div class="flex flex-col items-center w-20">
+            <div class="flex flex-col items-center w-24">
                 <div class="w-10 h-10 rounded-full flex items-center justify-center text-white bg-gray-300">2</div>
                 <p class="mt-2 text-xs text-center font-semibold text-gray-500">Legal & Financial</p>
             </div>
             <div class="stepper-line border-gray-300"></div>
-            <div class="flex flex-col items-center w-20">
+            <div class="flex flex-col items-center w-24">
                 <div class="w-10 h-10 rounded-full flex items-center justify-center text-white bg-gray-300">3</div>
                 <p class="mt-2 text-xs text-center font-semibold text-gray-500">Capabilities</p>
             </div>
             <div class="stepper-line border-gray-300"></div>
-            <div class="flex flex-col items-center w-20">
+            <div class="flex flex-col items-center w-24">
                 <div class="w-10 h-10 rounded-full flex items-center justify-center text-white bg-gray-300">4</div>
                 <p class="mt-2 text-xs text-center font-semibold text-gray-500">Compliance</p>
             </div>
             <div class="stepper-line border-gray-300"></div>
-            <div class="flex flex-col items-center w-20">
+            <div class="flex flex-col items-center w-24">
                 <div class="w-10 h-10 rounded-full flex items-center justify-center text-white bg-gray-300">5</div>
                 <p class="mt-2 text-xs text-center font-semibold text-gray-500">Uploads</p>
             </div>
@@ -105,27 +109,26 @@
                 <div class="mb-4">
                     <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number <span class="text-red-500">*</span></label>
                     <div class="phone-input-container">
-                        <select class="phone-input-flag-select">
-                            <option>🇮🇳</option>
-                            <option>🇺🇸</option>
-                            <option>🇬🇧</option>
+                        <select class="phone-code-select">
+                            <option>+91</option>
+                            <option>+1</option>
+                            <option>+44</option>
+                            <option>+61</option>
                         </select>
-                        <input type="tel" class="phone-input-field" placeholder="+91 98765 43210">
+                        <input type="tel" class="phone-input-field" placeholder="9876543210">
                     </div>
                 </div>
                 <!-- State -->
                 <div class="mb-4">
                     <label for="state" class="block text-sm font-medium text-gray-700 mb-1">State <span class="text-red-500">*</span></label>
-                    <select id="state" class="block w-full px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <select id="state" onchange="updateCities(this.value)" class="block w-full px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                         <option value="">Select State</option>
-                        <option value="Haryana">Haryana</option>
-                        <option value="Maharashtra">Maharashtra</option>
                     </select>
                 </div>
                 <!-- City -->
                 <div class="mb-4">
                     <label for="city" class="block text-sm font-medium text-gray-700 mb-1">City <span class="text-red-500">*</span></label>
-                    <select id="city" class="block w-full px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <select id="city" class="block w-full px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" disabled>
                         <option value="">Select City</option>
                     </select>
                 </div>
@@ -155,5 +158,74 @@
         </div>
     </div>
 
+    <script>
+        const indianStatesAndCities = {
+            "Andaman and Nicobar Islands": ["Port Blair"],
+            "Andhra Pradesh": ["Visakhapatnam", "Vijayawada", "Guntur", "Nellore", "Kurnool"],
+            "Arunachal Pradesh": ["Itanagar", "Naharlagun"],
+            "Assam": ["Guwahati", "Silchar", "Dibrugarh", "Jorhat"],
+            "Bihar": ["Patna", "Gaya", "Bhagalpur", "Muzaffarpur"],
+            "Chandigarh": ["Chandigarh"],
+            "Chhattisgarh": ["Raipur", "Bhilai", "Bilaspur"],
+            "Dadra and Nagar Haveli and Daman and Diu": ["Daman", "Silvassa"],
+            "Delhi": ["New Delhi", "Delhi"],
+            "Goa": ["Panaji", "Margao", "Vasco da Gama"],
+            "Gujarat": ["Ahmedabad", "Surat", "Vadodara", "Rajkot"],
+            "Haryana": ["Faridabad", "Gurugram", "Panipat", "Ambala", "Hansi"],
+            "Himachal Pradesh": ["Shimla", "Solan", "Dharamshala"],
+            "Jammu and Kashmir": ["Srinagar", "Jammu", "Anantnag"],
+            "Jharkhand": ["Ranchi", "Jamshedpur", "Dhanbad"],
+            "Karnataka": ["Bengaluru", "Mysuru", "Hubballi", "Mangaluru"],
+            "Kerala": ["Thiruvananthapuram", "Kochi", "Kozhikode"],
+            "Ladakh": ["Leh", "Kargil"],
+            "Lakshadweep": ["Kavaratti"],
+            "Madhya Pradesh": ["Indore", "Bhopal", "Jabalpur", "Gwalior"],
+            "Maharashtra": ["Mumbai", "Pune", "Nagpur", "Thane"],
+            "Manipur": ["Imphal"],
+            "Meghalaya": ["Shillong"],
+            "Mizoram": ["Aizawl"],
+            "Nagaland": ["Kohima", "Dimapur"],
+            "Odisha": ["Bhubaneswar", "Cuttack", "Rourkela"],
+            "Puducherry": ["Puducherry"],
+            "Punjab": ["Ludhiana", "Amritsar", "Jalandhar"],
+            "Rajasthan": ["Jaipur", "Jodhpur", "Kota", "Udaipur"],
+            "Sikkim": ["Gangtok"],
+            "Tamil Nadu": ["Chennai", "Coimbatore", "Madurai", "Tiruchirappalli"],
+            "Telangana": ["Hyderabad", "Warangal", "Nizamabad"],
+            "Tripura": ["Agartala"],
+            "Uttar Pradesh": ["Lucknow", "Kanpur", "Ghaziabad", "Agra", "Varanasi"],
+            "Uttarakhand": ["Dehradun", "Haridwar", "Roorkee"],
+            "West Bengal": ["Kolkata", "Asansol", "Siliguri", "Durgapur"]
+        };
+
+        const stateDropdown = document.getElementById('state');
+        const cityDropdown = document.getElementById('city');
+
+        // Populate states
+        Object.keys(indianStatesAndCities).forEach(state => {
+            const option = document.createElement('option');
+            option.value = state;
+            option.textContent = state;
+            stateDropdown.appendChild(option);
+        });
+
+        // Function to update cities
+        function updateCities(selectedState) {
+            cityDropdown.innerHTML = '<option value="">Select City</option>'; // Clear previous options
+            if (selectedState && indianStatesAndCities[selectedState]) {
+                cityDropdown.disabled = false;
+                indianStatesAndCities[selectedState].forEach(city => {
+                    const option = document.createElement('option');
+                    option.value = city;
+                    option.textContent = city;
+                    cityDropdown.appendChild(option);
+                });
+            } else {
+                cityDropdown.disabled = true;
+            }
+        }
+    </script>
+
 </body>
 </html>
+
